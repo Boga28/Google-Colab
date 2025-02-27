@@ -15,6 +15,8 @@ def load_model():
     config = XttsConfig()   
     config.load_json("/content/xtts2_model/config.json")
     model = Xtts.init_from_config(config)
+    config.model_args.kv_cache = True         # Ensure key-value caching is enabled.
+    config.model_args.gpt_batch_size = 1        # Adjust batch size as your GPU memory permits.
     model.load_checkpoint(config, checkpoint_dir="/content/xtts2_model/", use_deepspeed=True)
     model.cuda()
     return model
